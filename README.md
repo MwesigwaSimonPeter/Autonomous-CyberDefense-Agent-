@@ -1,4 +1,6 @@
 # ACDAN: Autonomous Cyber Defense Agent Network
+
+> Based on ACDAN by Manish Kafle (MIT License).
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/) 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Framework: Django Ninja](https://img.shields.io/badge/Framework-Django--Ninja-green.svg)](https://django-ninja.rest-framework.com/)
@@ -20,14 +22,12 @@ ACDAN is an end-to-end, multi-agent cybersecurity framework designed to automate
 - **Knowledge Base:** FAISS (Vector DB), Sentence-Transformers
 - **Reasoning:** Ollama (Mistral-7B 4-bit)
 - **RL Environment:** Custom OpenAI Gym-style Network Defense Env
-- **Backend:** Django + Django Ninja 
+- **Backend:** FastAPI + Uvicorn
 
 ---
 
 ## 🚀 The Pipeline Architecture
 ACDAN operates as a sequential "Sense-Think-Act" loop:
-
-<img src="docs/images/test_pipeline.png" alt="System Integration Test" width="100%" height="auto" style="max-height: 600px;"><p>
 
 1. **Phase 1 (Detection):** Monitors traffic via a Deep Neural Network to identify anomalies.
 2. **Phase 2 (Reasoning):** Uses **Retrieval-Augmented Generation (RAG)** to fetch CVE context and generate human-readable threat intelligence.
@@ -40,7 +40,6 @@ ACDAN operates as a sequential "Sense-Think-Act" loop:
 
 ```text
 ACDAN (Autonomous Cyber Defense Agent Network)/
-├── acdan_main/             # Django Project configuration & routing
 ├── apps/
 │   ├── detection/          # ML-based Threat Detection Layer
 │   │   ├── ml_logic/       # Model architecture & Inference pipeline
@@ -52,7 +51,6 @@ ACDAN (Autonomous Cyber Defense Agent Network)/
 │   ├── response/           # Autonomous Mitigation Layer (RL)
 │   │   ├── rl_logic/       # Deep Q-Network (DQN) & Defense Environment
 │   │   └── services.py     # RL Agent decision execution
-│   └── rag_intelligence/   # Shared RAG utilities (FAISS, Embeddings)
 ├── data/
 │   ├── cve_db/             # Local Vulnerability database (JSON/FAISS)
 │   ├── models/             # Production-ready ML/RL model weights (.pt)
@@ -60,30 +58,9 @@ ACDAN (Autonomous Cyber Defense Agent Network)/
 ├── scripts/                # Maintenance, Training, and Testing utilities
 │   ├── initialize_rag.py   # Setup vector database
 │   ├── train_rl_agent.py   # RL Model training script
-│   └── test_pipelines.py   # End-to-end system testing
-├── manage.py               # Django management CLI
+│   └── test_pipeline.py   # End-to-end system testing
 └── requirements.txt        # Project dependencies
 ```
----
-
-## 📈 Performance & Reproducibility
-
-### RL Training Convergence
-The RL agent transitions from random exploration to high-reward mitigation strategies within 200 episodes.
-
-<img src="docs/images/training_performance.png" alt="RL Training Progress" width="100%" height="auto" style="max-height: 700px;"><p>
- 
-> **Developer Note:** On 8GB RAM,876,305 samples from the [CIC-IDS-2017 Dataset](https://www.kaggle.com/datasets/chethuhn/network-intrusion-dataset) were balanced using [`create_balanced_data.py`](scripts/create_balanced_data.py).  
-> The resulting accuracy and latency show a dedicated effort for autonomous defense on constrained hardware.
-
-| Metric | Result |
-| :--- | :--- |
-| **Detection Accuracy** | 86.76% (Validated on 876K Balanced Samples) |
-| **Inference Latency (ML)** | ~0.8s |
-| **Reasoning Latency (LLM)** | (shown higher in my Local 4-bit Quantized) |
-| **Feature Set** | 79 Bi-directional Flow Features |
-| **Hardware Environment** | 8GB RAM / 4GB VRAM (Single Node) |
-
 ---
 
 ## 🛠️ Edge-Optimization & Data Engineering
@@ -124,7 +101,7 @@ ollama serve
 ollama pull mistral
 
 # Terminal 2: Start ACDAN API
-python manage.py runserver
+python main.py
 
 # Terminal 3: Run the End-to-End Integration Test
 python scripts/test_pipeline.py

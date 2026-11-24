@@ -16,3 +16,6 @@ data/cve_db/*.faiss
 # Django
 db.sqlite3
 count_lines.py
+.venv/
+*.pt
+*.pkl
