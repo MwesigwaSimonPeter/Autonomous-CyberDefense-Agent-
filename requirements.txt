@@ -1,0 +1,24 @@
+# Core Backend
+fastapi
+uvicorn
+python-dotenv
+requests
+
+# ML & Detection (ML logic & Preprocessing)
+torch
+numpy
+pandas
+scikit-learn
+joblib
+
+# RAG & Intelligence
+faiss-cpu
+sentence-transformers
+ollama
+
+# Utilities
+pydantic
+pydantic-settings
+pyyaml
+
+scapy
