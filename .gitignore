@@ -12,6 +12,7 @@ data/logs/
 data/models/*.pt
 data/models/*.pkl
 data/cve_db/*.faiss
+data/cve_db/*.faiss.meta
 
 # Django
 db.sqlite3
@@ -19,3 +20,4 @@ count_lines.py
 .venv/
 *.pt
 *.pkl
+data/cve_db/*.meta

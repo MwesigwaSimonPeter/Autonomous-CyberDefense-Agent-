@@ -1,6 +1,5 @@
 import os
 import sys
-import faiss
 from pathlib import Path
 
 # Project root setup
@@ -9,7 +8,7 @@ sys.path.append(str(PROJECT_ROOT))
 
 # Import RAG components
 try:
-    from apps.rag_intelligence.logic.cve_loader import CVELoader
+    from apps.reasoning.intel.cve_loader import CVELoader
 except ImportError:
     print("Error: CVELoader module not found. Verify project structure.")
     sys.exit(1)
@@ -36,13 +35,10 @@ def main() -> None:
     print("Building FAISS vector index (all-MiniLM-L6-v2)...")
     result = loader.build_index(model_name="all-MiniLM-L6-v2")
 
-    # 3. Save Index (The Fix)
+    # 3. Save index and metadata for the reasoning service.
     print(f"Saving FAISS index to {faiss_path}")
-    
-    actual_index = getattr(result, 'index', result)
-    
     try:
-        faiss.write_index(actual_index, str(faiss_path))
+        result.save(str(faiss_path))
         print("\nInitialization completed successfully.")
     except Exception as e:
         print(f"\nFailed to save index: {e}")

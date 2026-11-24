@@ -24,7 +24,7 @@ class FAISSIndex:
         self.index.add(embeddings)
         self.documents.extend(documents)
         self.metadata.extend(metadata if metadata else [{} for _ in documents])
-        print(f"✅ Added {len(documents)} docs. Current Total: {self.index.ntotal}")
+        print(f"Added {len(documents)} docs. Current total: {self.index.ntotal}")
     
     def search(self, query_embedding: np.ndarray, k: int = 5) -> List[Tuple]:
         if self.index.ntotal == 0:
@@ -54,7 +54,7 @@ class FAISSIndex:
                 'meta': self.metadata, 
                 'dim': self.embedding_dim
             }, f)
-        print(f"💾 Index & Meta saved to: {filepath}")
+        print(f"Index and metadata saved to: {filepath}")
     
     def load(self, filepath: str) -> None:
         """Loads index natively and metadata via pickle."""
@@ -69,4 +69,4 @@ class FAISSIndex:
             self.documents = data['docs']
             self.metadata = data['meta']
             self.embedding_dim = data['dim']
-        print(f"📖 Index loaded successfully. Size: {self.index.ntotal}")
+        print(f"Index loaded successfully. Size: {self.index.ntotal}")
